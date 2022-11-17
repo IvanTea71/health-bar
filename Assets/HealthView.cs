@@ -10,12 +10,17 @@ public class HealthView : MonoBehaviour
     private Health _health;
     private Coroutine _controlHp;
 
-    public void DoAction()
+    private void OnEnable()
     {
         _health.HpChanged += CoroutineControl;
     }
 
-    private void CoroutineControl(float target)
+    private void OnDisable()
+    {
+        _health.HpChanged -= CoroutineControl;
+    }
+
+    public void CoroutineControl(float target)
     {
         if (_controlHp != null)
         {

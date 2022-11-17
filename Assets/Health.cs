@@ -9,7 +9,7 @@ public class Health : MonoBehaviour
     [SerializeField] private UnityEvent<float> _hpChanged;
 
     private float _maxHp = 1f;
-    private float _minHp = 0f;
+    private float _minHp = 0;
     private float _currentHp = 1f;
 
     public event UnityAction<float> HpChanged
@@ -20,9 +20,11 @@ public class Health : MonoBehaviour
 
     public void Healing(float heal)
     {
-        if (_currentHp <= _maxHp && _currentHp >= _minHp)
+        _currentHp += heal;
+
+        if (_currentHp > _maxHp)
         {
-            _currentHp += heal;
+            _currentHp = _maxHp;
         }
 
         _hpChanged?.Invoke(_currentHp);
@@ -30,9 +32,11 @@ public class Health : MonoBehaviour
 
     public void TakeDamage(float damage)
     {
-        if (_currentHp <= _maxHp && _currentHp >= _minHp)
+        _currentHp -= damage;
+
+        if (_currentHp < _minHp)
         {
-            _currentHp -= damage;
+            _currentHp = _minHp;
         }
 
         _hpChanged?.Invoke(_currentHp);

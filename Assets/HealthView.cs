@@ -12,26 +12,7 @@ public class HealthView : MonoBehaviour
 
     public void DoAction()
     {
-        if (_health.IsHealing == true)
-        {
-            _health.HpChanged += SliderUp;
-        }
-        else
-        {
-            _health.HpChanged += SliderDown;
-        }
-    }
-
-    private void SliderUp()
-    {
-        float target = _slider.value + 0.1f;
-        CoroutineControl(target);
-    }
-
-    private void SliderDown()
-    {
-        float target = _slider.value - 0.1f;
-        CoroutineControl(target);
+        _health.HpChanged += CoroutineControl;
     }
 
     private void CoroutineControl(float target)

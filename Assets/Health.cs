@@ -6,25 +6,35 @@ using UnityEngine.UI;
 
 public class Health : MonoBehaviour
 {
-    [SerializeField] private UnityEvent _hpChanged;
+    [SerializeField] private UnityEvent<float> _hpChanged;
 
-    public event UnityAction HpChanged
+    private float _maxHp = 1f;
+    private float _minHp = 0f;
+    private float _currentHp = 1f;
+
+    public event UnityAction<float> HpChanged
     {
         add => _hpChanged.AddListener(value);
         remove => _hpChanged.RemoveListener(value);
     }
 
-    public bool IsHealing { get; private set; }
-
-    public void HpUp()
+    public void Healing(float heal)
     {
-        IsHealing = true;
-        _hpChanged?.Invoke();
+        if (_currentHp <= _maxHp && _currentHp >= _minHp)
+        {
+            _currentHp += heal;
+        }
+
+        _hpChanged?.Invoke(_currentHp);
     }
 
-    public void HpDown()
+    public void TakeDamage(float damage)
     {
-        IsHealing = false;
-        _hpChanged?.Invoke();
+        if (_currentHp <= _maxHp && _currentHp >= _minHp)
+        {
+            _currentHp -= damage;
+        }
+
+        _hpChanged?.Invoke(_currentHp);
     }
 }

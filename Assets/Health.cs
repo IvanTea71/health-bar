@@ -18,26 +18,16 @@ public class Health : MonoBehaviour
         remove => _hpChanged.RemoveListener(value);
     }
 
-    public void Healing(float heal)
+    public void Heal(float heal)
     {
-        _currentHp += heal;
-
-        if (_currentHp > _maxHp)
-        {
-            _currentHp = _maxHp;
-        }
+        _currentHp = Mathf.Clamp(_currentHp + heal, _minHp, _maxHp);
 
         _hpChanged?.Invoke(_currentHp);
     }
 
     public void TakeDamage(float damage)
     {
-        _currentHp -= damage;
-
-        if (_currentHp < _minHp)
-        {
-            _currentHp = _minHp;
-        }
+        _currentHp = Mathf.Clamp(_currentHp - damage, _minHp, _maxHp);
 
         _hpChanged?.Invoke(_currentHp);
     }
